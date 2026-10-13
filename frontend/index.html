@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Site Soil Moisture Monitor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>Site soil moisture</h1>
+    <p id="conn" class="conn" role="status">Connecting…</p>
+  </header>
+
+  <main>
+    <nav id="points" class="points" aria-label="Monitoring points"></nav>
+
+    <section class="reading" aria-live="polite">
+      <div class="profile" aria-hidden="true">
+        <div class="soil">
+          <div class="fill" id="fill"></div>
+          <div class="mark" id="markWet"><span id="markWetLabel"></span></div>
+          <div class="mark" id="markDry"><span id="markDryLabel"></span></div>
+        </div>
+      </div>
+
+      <div class="figures">
+        <p class="where" id="where">No data yet</p>
+        <p class="value"><span id="value">--</span><small>%</small></p>
+        <p class="verdict" id="verdict">Waiting for the first reading from the sensor.</p>
+        <p class="meta" id="meta"></p>
+      </div>
+    </section>
+
+    <section class="history">
+      <div class="history-head">
+        <h2>Moisture history</h2>
+        <label>Range
+          <select id="range">
+            <option value="1">Last hour</option>
+            <option value="6">Last 6 hours</option>
+            <option value="24" selected>Last 24 hours</option>
+            <option value="168">Last 7 days</option>
+          </select>
+        </label>
+      </div>
+      <svg id="chart" viewBox="0 0 800 280" role="img" aria-label="Soil moisture over time"></svg>
+      <p id="empty" class="empty" hidden>No readings in this range. Check that the ESP32 is powered and connected to Wi-Fi.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

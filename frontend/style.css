@@ -1,0 +1,95 @@
+:root {
+  --concrete: #e4e6e3;
+  --paper: #f2f3f1;
+  --slate: #1d2a30;
+  --muted: #5d6b71;
+  --water: #1b6a8a;
+  --clay-dry: #c79a52;
+  --ok: #3b7a57;
+  --warn: #a8402c;
+  --line: #c7cbc7;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light; }
+body {
+  margin: 0;
+  font-family: "Barlow", system-ui, sans-serif;
+  background: var(--concrete);
+  color: var(--slate);
+  line-height: 1.5;
+}
+.top {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px;
+  padding: 20px clamp(16px, 5vw, 48px);
+  background: var(--slate); color: var(--paper);
+}
+h1, h2 { font-family: "Barlow Condensed", sans-serif; font-weight: 700; letter-spacing: .01em; margin: 0; }
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.4rem; }
+.conn { margin: 0; font-size: .95rem; color: #b9c4c8; }
+.conn.live::before, .conn.stale::before {
+  content: ""; display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+  margin-right: 8px; background: var(--ok);
+}
+.conn.stale::before { background: var(--clay-dry); }
+.conn.down { color: #f1b3a6; }
+
+main { max-width: 980px; margin: 0 auto; padding: 24px clamp(16px, 4vw, 32px) 48px; }
+
+.points { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.points button {
+  font: inherit; font-weight: 500; padding: 8px 14px; cursor: pointer;
+  background: var(--paper); color: var(--slate); border: 1px solid var(--line); border-radius: 4px;
+}
+.points button[aria-pressed="true"] { background: var(--slate); color: var(--paper); border-color: var(--slate); }
+.points button:focus-visible, select:focus-visible { outline: 3px solid var(--water); outline-offset: 2px; }
+
+.reading {
+  display: grid; grid-template-columns: 150px 1fr; gap: clamp(20px, 5vw, 56px); align-items: stretch;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 28px;
+}
+
+/* Soil profile gauge: the column fills like a trench cross-section */
+.profile { display: flex; justify-content: center; }
+.soil {
+  position: relative; width: 110px; height: 300px;
+  border: 2px solid var(--slate); border-radius: 2px; overflow: hidden;
+  background: repeating-linear-gradient(0deg, #d9c9a6 0 6px, #d2c19b 6px 12px);
+}
+.fill {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 0%;
+  background: linear-gradient(180deg, #2f7f9f, #174f68);
+  transition: height .8s ease;
+}
+.mark { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--slate); }
+.mark span {
+  position: absolute; right: 4px; top: 2px; font-size: .78rem; font-weight: 600;
+  background: var(--paper); padding: 0 4px; border-radius: 2px;
+}
+
+.figures { display: flex; flex-direction: column; justify-content: center; }
+.where { margin: 0; color: var(--muted); font-weight: 500; }
+.value { margin: 0; font-family: "Barlow Condensed", sans-serif; font-weight: 700; font-size: clamp(4.5rem, 14vw, 7.5rem); line-height: 1; }
+.value small { font-size: .4em; margin-left: 4px; color: var(--muted); }
+.verdict { margin: 8px 0 0; font-size: 1.25rem; font-weight: 600; max-width: 34ch; }
+.verdict.dry { color: #8a6218; }
+.verdict.workable { color: var(--ok); }
+.verdict.wet { color: var(--warn); }
+.meta { margin: 10px 0 0; color: var(--muted); font-size: .95rem; }
+
+.history { margin-top: 24px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 20px 24px 12px; }
+.history-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+select { font: inherit; margin-left: 6px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+#chart { width: 100%; height: auto; display: block; margin-top: 8px; }
+.empty { color: var(--muted); padding: 8px 0 16px; }
+
+#chart .axis { stroke: var(--line); }
+#chart .tick { fill: var(--muted); font-size: 12px; font-family: "Barlow", sans-serif; }
+#chart .band { fill: rgba(59,122,87,.12); }
+#chart .line { fill: none; stroke: var(--water); stroke-width: 2.5; stroke-linejoin: round; }
+
+@media (max-width: 620px) {
+  .reading { grid-template-columns: 1fr; padding: 20px; }
+  .soil { height: 200px; width: 90px; }
+}
+@media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
